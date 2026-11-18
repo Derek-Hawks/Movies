@@ -6,73 +6,93 @@
     <title>HabeshaFlix - Amharic Movies & Dramas</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-[#141414] text-white font-sans antialiased">
+<body class="bg-[#141414] text-white font-sans antialiased scroll-smooth">
 
-    <nav class="fixed top-0 w-full z-50 bg-gradient-to-b from-black/80 to-transparent px-8 py-4 flex items-center justify-between">
-        <h1 class="text-red-600 font-bold text-3xl tracking-wider">HABESHAFLIX</h1>
-        <div class="space-x-6 text-sm">
-            <a href="#" class="hover:text-gray-300">Home</a>
-            <a href="#" class="hover:text-gray-300">Dramas</a>
-            <a href="#" class="hover:text-gray-300">Comedies</a>
-            <a href="#" class="hover:text-gray-300">Movies</a>
+    <nav class="fixed top-0 w-full z-50 bg-gradient-to-b from-black/90 via-black/50 to-transparent px-8 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-8">
+            <h1 class="text-red-600 font-bold text-3xl tracking-wider cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">HABESHAFLIX</h1>
+            <div class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#home" class="hover:text-gray-300 transition">Home</a>
+                <a href="#dramas" class="hover:text-gray-300 transition">Dramas</a>
+                <a href="#comedies" class="hover:text-gray-300 transition">Comedies</a>
+            </div>
+        </div>
+        <div class="relative">
+            <input type="text" id="searchInput" onkeyup="filterMovies()" placeholder="Search movies..." class="bg-black/60 border border-gray-700 text-sm px-4 py-1.5 rounded-full focus:outline-none focus:border-red-600 w-48 md:w-64 transition">
         </div>
     </nav>
 
-    <div class="relative h-[70vh] flex items-center px-12 bg-cover bg-center" style="background-image: url('https://img.youtube.com/vi/1vlv7COBsd8/maxresdefault.jpg');">
+    <div id="home" class="relative h-[70vh] flex items-center px-12 bg-cover bg-center" style="background-image: url('https://img.youtube.com/vi/1vlv7COBsd8/maxresdefault.jpg');">
         <div class="absolute inset-0 bg-gradient-to-r from-[#141414] via-black/40 to-transparent"></div>
         <div class="relative z-10 max-w-xl space-y-4">
-            <span class="bg-red-600 text-xs px-2 py-1 rounded font-semibold uppercase tracking-wider">Featured Movie</span>
-            <h2 class="text-5xl font-extrabold drop-shadow-lg">Latest Amharic Blockbuster</h2>
-            <p class="text-gray-300 text-lg drop-shadow">Watch the latest thrilling Ethiopian drama and movies right here in high definition.</p>
+            <span class="bg-red-600 text-xs px-2.5 py-1 rounded font-semibold uppercase tracking-wider">Featured Movie</span>
+            <h2 class="text-5xl font-extrabold drop-shadow-lg">Mehal Ketema / Feature Film</h2>
+            <p class="text-gray-300 text-lg drop-shadow">Watch the latest thrilling Ethiopian drama and popular movies right here in high definition.</p>
             <div class="space-x-4">
                 <button onclick="playVideo('1vlv7COBsd8')" class="bg-white text-black font-semibold px-6 py-2.5 rounded hover:bg-gray-200 transition">▶ Play</button>
-                <button class="bg-gray-500/70 text-white font-semibold px-6 py-2.5 rounded hover:bg-gray-500/50 transition">ℹ More Info</button>
+                <button onclick="openInfoModal()" class="bg-gray-500/70 text-white font-semibold px-6 py-2.5 rounded hover:bg-gray-500/50 transition">ℹ More Info</button>
             </div>
         </div>
     </div>
 
-    <div class="px-12 py-8 space-y-8">
+    <div class="px-12 py-8 space-y-12">
         
-        <section>
+        <section id="dramas">
             <h3 class="text-xl font-semibold mb-4 text-gray-200">Popular Amharic Dramas</h3>
-            <div class="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
-                <div onclick="playVideo('sPUIq1qccGo')" class="min-w-[250px] cursor-pointer group relative">
+            <div class="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide movie-row">
+                <div onclick="playVideo('sPUIq1qccGo')" class="movie-card min-w-[250px] cursor-pointer group relative">
                     <img src="https://img.youtube.com/vi/sPUIq1qccGo/hqdefault.jpg" class="rounded-md w-full h-36 object-cover group-hover:scale-105 transition duration-300">
-                    <p class="mt-2 text-sm text-gray-300">Bole Manekia-ቦሌ ማነቂያ</p>
+                    <p class="movie-title mt-2 text-sm text-gray-300">Bole Manekia-ቦሌ ማነቂያ</p>
                 </div>
-                <div onclick="playVideo('EFxMJLQ6d6E')" class="min-w-[250px] cursor-pointer group relative">
+                <div onclick="playVideo('EFxMJLQ6d6E')" class="movie-card min-w-[250px] cursor-pointer group relative">
                     <img src="https://img.youtube.com/vi/EFxMJLQ6d6E/hqdefault.jpg" class="rounded-md w-full h-36 object-cover group-hover:scale-105 transition duration-300">
-                    <p class="mt-2 text-sm text-gray-300">Yewendoch Guday1-የወዶንች ጉዳይ1</p>
+                    <p class="movie-title mt-2 text-sm text-gray-300">Yewendoch Guday1-የወዶንች ጉዳይ1</p>
                 </div>
-                <div onclick="playVideo('phmIAGUlKVg')" class="min-w-[250px] cursor-pointer group relative">
+                <div onclick="playVideo('phmIAGUlKVg')" class="movie-card min-w-[250px] cursor-pointer group relative">
                     <img src="https://img.youtube.com/vi/phmIAGUlKVg/hqdefault.jpg" class="rounded-md w-full h-36 object-cover group-hover:scale-105 transition duration-300">
-                    <p class="mt-2 text-sm text-gray-300">Wedaj-ወዳጅ</p>
+                    <p class="movie-title mt-2 text-sm text-gray-300">Wedaj-ወዳጅ</p>
                 </div>
             </div>
         </section>
 
-        <section>
+        <section id="comedies">
             <h3 class="text-xl font-semibold mb-4 text-gray-200">Ethiopian Comedies & Standup</h3>
-            <div class="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
-                <div onclick="playVideo('Xshp4Xq8Z7U')" class="min-w-[250px] cursor-pointer group relative">
+            <div class="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide movie-row">
+                <div onclick="playVideo('Xshp4Xq8Z7U')" class="movie-card min-w-[250px] cursor-pointer group relative">
                     <img src="https://img.youtube.com/vi/Xshp4Xq8Z7U/hqdefault.jpg" class="rounded-md w-full h-36 object-cover group-hover:scale-105 transition duration-300">
-                    <p class="mt-2 text-sm text-gray-300">Zetenegaw Shi-Funny Amharic Show</p>
+                    <p class="movie-title mt-2 text-sm text-gray-300">Zetenegaw Shi-Funny Amharic Show</p>
                 </div>
-				<div onclick="playVideo('KZ1w1EHoC7k')" class="min-w-[250px] cursor-pointer group relative">
+                <div onclick="playVideo('KZ1w1EHoC7k')" class="movie-card min-w-[250px] cursor-pointer group relative">
                     <img src="https://img.youtube.com/vi/KZ1w1EHoC7k/hqdefault.jpg" class="rounded-md w-full h-36 object-cover group-hover:scale-105 transition duration-300">
-                    <p class="mt-2 text-sm text-gray-300">Besntu-Funny Amharic Show</p>
+                    <p class="movie-title mt-2 text-sm text-gray-300">Besntu-Funny Amharic Show</p>
                 </div>
             </div>
         </section>
 
     </div>
 
-    <div id="videoModal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center">
+    <div id="videoModal" onclick="checkCloseModal(event, 'videoModal')" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center">
         <div class="relative w-full max-w-4xl px-4">
-            <button onclick="closeModal()" class="absolute -top-10 right-4 text-white text-3xl font-bold hover:text-red-500">&times;</button>
+            <button onclick="closeModal('videoModal')" class="absolute -top-10 right-4 text-white text-3xl font-bold hover:text-red-500">&times;</button>
             <div class="relative pb-[56.25%] h-0">
                 <iframe id="youtubeIframe" class="absolute top-0 left-0 w-full h-full rounded-lg" src="" frameborder="0" allowfullscreen></iframe>
             </div>
+        </div>
+    </div>
+
+    <div id="infoModal" onclick="checkCloseModal(event, 'infoModal')" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center">
+        <div class="bg-[#181818] text-white p-8 rounded-lg max-w-lg w-full relative border border-gray-700 space-y-4">
+            <button onclick="closeModal('infoModal')" class="absolute top-4 right-4 text-gray-400 text-2xl hover:text-white">&times;</button>
+            <h2 class="text-3xl font-bold">Bole Manekia</h2>
+            <div class="flex space-x-4 text-sm text-gray-400">
+                <span class="text-green-500 font-semibold">98% Match</span>
+                <span>2023</span>
+                <span class="border border-gray-600 px-1.5 text-xs rounded">HD</span>
+            </div>
+            <p class="text-gray-300 text-sm leading-relaxed">
+                An engaging Ethiopian feature film exploring urban life, drama, and culture in Addis Ababa. Experience high-quality storytelling right here on HabeshaFlix.
+            </p>
+            <button onclick="closeModal('infoModal'); playVideo('1vlv7COBsd8')" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded transition w-full">▶ Play Movie</button>
         </div>
     </div>
 
@@ -84,11 +104,36 @@
             modal.classList.remove('hidden');
         }
 
-        function closeModal() {
-            const modal = document.getElementById('videoModal');
-            const iframe = document.getElementById('youtubeIframe');
-            iframe.src = ''; 
+        function openInfoModal() {
+            document.getElementById('infoModal').classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
             modal.classList.add('hidden');
+            if (modalId === 'videoModal') {
+                document.getElementById('youtubeIframe').src = ''; 
+            }
+        }
+
+        function checkCloseModal(event, modalId) {
+            if (event.target.id === modalId) {
+                closeModal(modalId);
+            }
+        }
+
+        function filterMovies() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.movie-card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('.movie-title').textContent.toLowerCase();
+                if (title.includes(input)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
         }
     </script>
 </body>
