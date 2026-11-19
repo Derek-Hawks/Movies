@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HabeshaFlix - Amharic Movies & Dramas</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-[#141414] text-white font-sans antialiased scroll-smooth">
 
@@ -17,8 +18,18 @@
                 <a href="#comedies" class="hover:text-gray-300 transition">Comedies</a>
             </div>
         </div>
-        <div class="relative">
-            <input type="text" id="searchInput" onkeyup="filterMovies()" placeholder="Search movies..." class="bg-black/60 border border-gray-700 text-sm px-4 py-1.5 rounded-full focus:outline-none focus:border-red-600 w-48 md:w-64 transition">
+
+        <div class="flex items-center space-x-4">
+            <input type="text" id="searchInput" onkeyup="filterMovies()" placeholder="Search movies..." class="bg-black/60 border border-gray-700 text-sm px-4 py-1.5 rounded-full focus:outline-none focus:border-red-600 w-36 md:w-56 transition">
+            
+            <div id="authButtons" class="space-x-2">
+                <button onclick="openAuthModal('login')" class="text-sm font-semibold hover:text-gray-300 transition">Sign In</button>
+                <button onclick="openAuthModal('signup')" class="bg-red-600 hover:bg-red-700 text-sm font-semibold px-4 py-1.5 rounded transition">Sign Up</button>
+            </div>
+            <div id="userProfile" class="hidden flex items-center space-x-3">
+                <span id="userEmailDisplay" class="text-xs text-gray-300 hidden md:inline"></span>
+                <button onclick="signOut()" class="bg-gray-700 hover:bg-gray-600 text-xs font-semibold px-3 py-1.5 rounded transition">Sign Out</button>
+            </div>
         </div>
     </nav>
 
@@ -26,7 +37,7 @@
         <div class="absolute inset-0 bg-gradient-to-r from-[#141414] via-black/40 to-transparent"></div>
         <div class="relative z-10 max-w-xl space-y-4">
             <span class="bg-red-600 text-xs px-2.5 py-1 rounded font-semibold uppercase tracking-wider">Featured Movie</span>
-            <h2 class="text-5xl font-extrabold drop-shadow-lg">Mehal Ketema / Feature Film</h2>
+            <h2 class="text-5xl font-extrabold drop-shadow-lg">Bole Manekia / Feature Film</h2>
             <p class="text-gray-300 text-lg drop-shadow">Watch the latest thrilling Ethiopian drama and popular movies right here in high definition.</p>
             <div class="space-x-4">
                 <button onclick="playVideo('1vlv7COBsd8')" class="bg-white text-black font-semibold px-6 py-2.5 rounded hover:bg-gray-200 transition">▶ Play</button>
@@ -36,10 +47,9 @@
     </div>
 
     <div class="px-12 py-8 space-y-12">
-        
         <section id="dramas">
             <h3 class="text-xl font-semibold mb-4 text-gray-200">Popular Amharic Dramas</h3>
-            <div class="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide movie-row">
+            <div class="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
                 <div onclick="playVideo('sPUIq1qccGo')" class="movie-card min-w-[250px] cursor-pointer group relative">
                     <img src="https://img.youtube.com/vi/sPUIq1qccGo/hqdefault.jpg" class="rounded-md w-full h-36 object-cover group-hover:scale-105 transition duration-300">
                     <p class="movie-title mt-2 text-sm text-gray-300">Bole Manekia-ቦሌ ማነቂያ</p>
@@ -57,7 +67,7 @@
 
         <section id="comedies">
             <h3 class="text-xl font-semibold mb-4 text-gray-200">Ethiopian Comedies & Standup</h3>
-            <div class="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide movie-row">
+            <div class="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
                 <div onclick="playVideo('Xshp4Xq8Z7U')" class="movie-card min-w-[250px] cursor-pointer group relative">
                     <img src="https://img.youtube.com/vi/Xshp4Xq8Z7U/hqdefault.jpg" class="rounded-md w-full h-36 object-cover group-hover:scale-105 transition duration-300">
                     <p class="movie-title mt-2 text-sm text-gray-300">Zetenegaw Shi-Funny Amharic Show</p>
@@ -68,7 +78,6 @@
                 </div>
             </div>
         </section>
-
     </div>
 
     <div id="videoModal" onclick="checkCloseModal(event, 'videoModal')" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center">
@@ -84,19 +93,111 @@
         <div class="bg-[#181818] text-white p-8 rounded-lg max-w-lg w-full relative border border-gray-700 space-y-4">
             <button onclick="closeModal('infoModal')" class="absolute top-4 right-4 text-gray-400 text-2xl hover:text-white">&times;</button>
             <h2 class="text-3xl font-bold">Bole Manekia</h2>
-            <div class="flex space-x-4 text-sm text-gray-400">
-                <span class="text-green-500 font-semibold">98% Match</span>
-                <span>2023</span>
-                <span class="border border-gray-600 px-1.5 text-xs rounded">HD</span>
-            </div>
-            <p class="text-gray-300 text-sm leading-relaxed">
-                An engaging Ethiopian feature film exploring urban life, drama, and culture in Addis Ababa. Experience high-quality storytelling right here on HabeshaFlix.
-            </p>
+            <p class="text-gray-300 text-sm leading-relaxed">An engaging Ethiopian feature film exploring urban life, drama, and culture in Addis Ababa.</p>
             <button onclick="closeModal('infoModal'); playVideo('1vlv7COBsd8')" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded transition w-full">▶ Play Movie</button>
         </div>
     </div>
 
+    <div id="authModal" onclick="checkCloseModal(event, 'authModal')" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center">
+        <div class="bg-[#181818] text-white p-8 rounded-lg max-w-md w-full relative border border-gray-700 space-y-6">
+            <button onclick="closeModal('authModal')" class="absolute top-4 right-4 text-gray-400 text-2xl hover:text-white">&times;</button>
+            <h2 id="authModalTitle" class="text-2xl font-bold">Sign In</h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Email</label>
+                    <input type="email" id="authEmail" class="w-full bg-black/50 border border-gray-700 px-3 py-2 rounded text-sm focus:outline-none focus:border-red-600" placeholder="name@example.com">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Password</label>
+                    <input type="password" id="authPassword" class="w-full bg-black/50 border border-gray-700 px-3 py-2 rounded text-sm focus:outline-none focus:border-red-600" placeholder="••••••••">
+                </div>
+                <p id="authMessage" class="text-xs text-red-500"></p>
+                <button onclick="handleAuth()" id="authSubmitBtn" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded w-full transition">Sign In</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        const SUPABASE_URL = 'https://jmswjhtsblyrgohmidjs.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_1XGgd05f1tXM7Ai5CzGB_w_HJ0PSJwU';
+
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let authMode = 'login'; 
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            updateAuthUI(session);
+
+            supabaseClient.auth.onAuthStateChange((event, session) => {
+                updateAuthUI(session);
+            });
+        });
+
+        function updateAuthUI(session) {
+            const authButtons = document.getElementById('authButtons');
+            const userProfile = document.getElementById('userProfile');
+            const userEmailDisplay = document.getElementById('userEmailDisplay');
+
+            if (session) {
+                authButtons.classList.add('hidden');
+                userProfile.classList.remove('hidden');
+                userEmailDisplay.textContent = session.user.email;
+            } else {
+                authButtons.classList.remove('hidden');
+                userProfile.classList.add('hidden');
+            }
+        }
+
+        function openAuthModal(mode) {
+            authMode = mode;
+            const title = document.getElementById('authModalTitle');
+            const btn = document.getElementById('authSubmitBtn');
+            document.getElementById('authMessage').textContent = '';
+
+            if (mode === 'signup') {
+                title.textContent = 'Create Account';
+                btn.textContent = 'Sign Up & Verify Email';
+            } else {
+                title.textContent = 'Sign In';
+                btn.textContent = 'Sign In';
+            }
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+
+        async function handleAuth() {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            const msg = document.getElementById('authMessage');
+            msg.textContent = '';
+
+            if (!email || !password) {
+                msg.textContent = 'Please fill in all fields.';
+                return;
+            }
+
+            if (authMode === 'signup') {
+                const { data, error } = await supabaseClient.auth.signUp({ email, password });
+                if (error) {
+                    msg.textContent = error.message;
+                } else {
+                    msg.textContent = 'Verification email sent! Please check your inbox to verify your account.';
+                }
+            } else {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) {
+                    msg.textContent = error.message;
+                } else {
+                    closeModal('authModal');
+                }
+            }
+        }
+
+        async function signOut() {
+            await supabaseClient.auth.signOut();
+        }
+
         function playVideo(videoId) {
             const modal = document.getElementById('videoModal');
             const iframe = document.getElementById('youtubeIframe');
@@ -109,8 +210,7 @@
         }
 
         function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.add('hidden');
+            document.getElementById(modalId).classList.add('hidden');
             if (modalId === 'videoModal') {
                 document.getElementById('youtubeIframe').src = ''; 
             }
@@ -125,14 +225,9 @@
         function filterMovies() {
             const input = document.getElementById('searchInput').value.toLowerCase();
             const cards = document.querySelectorAll('.movie-card');
-
             cards.forEach(card => {
                 const title = card.querySelector('.movie-title').textContent.toLowerCase();
-                if (title.includes(input)) {
-                    card.style.display = "block";
-                } else {
-                    card.style.display = "none";
-                }
+                card.style.display = title.includes(input) ? "block" : "none";
             });
         }
     </script>
